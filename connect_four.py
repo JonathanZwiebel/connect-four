@@ -34,7 +34,7 @@ class ConnectFourGame:
                 new_board[i, action] = state[1]
                 break
 
-        return (new_board, 1 if state[1] == 2 else 2)
+        return (new_board, 3 - state[1])
 
     # Returns a two-element tuple with the game end state and winner
     # (False, 0) for an in-progress gmae

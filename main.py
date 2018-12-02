@@ -1,6 +1,8 @@
 from connect_four import ConnectFourGame
 from human_agent import human_agent
 from random_agent import random_agent
+from minimax_agent import minimax_agent_first, minimax_agent_second
+from minimax_ab_agent import minimax_ab_agent_first, minimax_ab_agent_second
 
 import random
 import time
@@ -65,4 +67,4 @@ def test_connect_four_game():
     time_per_move = time_per_game / (game.num_cols * game.num_rows)
     print("Took ~" + str(time_per_move * 1000) + " ms per move")
 
-play_connect_four_game(human_agent, human_agent)
+play_connect_four_game(minimax_ab_agent_first, human_agent)
