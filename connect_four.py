@@ -6,7 +6,6 @@ States are given by 2-element tuples containing the game board and the player wh
     2 corresponds to the opposing player
 """
 import numpy as np
-import random
 
 class ConnectFourGame:
     # Board size is a two-element tuple (height, width)
@@ -44,14 +43,14 @@ class ConnectFourGame:
         board = state[0]
 
         for i in range(self.num_rows):
-            row = board[:,i]
+            row = board[i,:]
             for j in range(self.num_cols - self.match_length + 1):
                 if len(np.unique(np.array(row[j:j+self.match_length]))) == 1:
                     if row[j] != 0:
                         return (True, row[j])
 
         for i in range(self.num_cols):
-            col = board[i,:]
+            col = board[:,i]
             for j in range(self.num_rows - self.match_length + 1):
                 if len(np.unique(np.array(col[j:j+self.match_length]))) == 1:
                     if col[j] != 0:
@@ -72,7 +71,7 @@ class ConnectFourGame:
                     if matched:
                         return (True, first)
 
-                if col - self.match_length >= 0:
+                if col - self.match_length + 1 >= 0:
                     matched = True
                     for i in range(1, self.match_length):
                         if board[row + i][col - i] != first:
@@ -86,26 +85,25 @@ class ConnectFourGame:
 
         return (False, 0)
 
+    def print_state(self, state):
+        self.print_board(state[0])
+        print(str(state[1]) + " to move")
+
+    def print_board(self, board):
+        print ("-" * (self.num_cols * 5 + 1))
+        for row in range(self.num_rows):
+            line = "| "
+            for col in range(self.num_cols):
+                if board[row][col] == 0:
+                    c = " "
+                elif board[row][col] == 1:
+                    c = "$"
+                else:
+                    c = "*"
+                line += c * 2 + " | "
+            print(line)
+            print(line)
+            print ("-" * (self.num_cols * 5 + 1))
+
     def player(self, state):
         return state[1]
-
-def test_connect_four_game():
-    game = ConnectFourGame(board_size = (5,5), match_length = 3)
-    state = game.start_state()
-    while True:
-        input("Enter to continue")
-        print("Current State:")
-        print(state)
-        actions = game.actions(state)
-        print("Current Actions: " + str(actions))
-        # chosen_action = random.choice(actions)
-        chosen_action = int(input("Choose an Action: "))
-        print("Chosen Action: " + str(chosen_action))
-        state = game.successor(state, chosen_action)
-        if game.is_end(state)[0]:
-            break
-    print("Current State:")
-    print(state)
-    print(game.is_end(state))
-
-test_connect_four_game()
