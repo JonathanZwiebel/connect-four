@@ -81,7 +81,7 @@ def minimax_ab_value(game, state, max_index, agent_index, depth):
 		return 0 # No evaluation function
 
 	actions = game.actions(state)
-	if state[1] == max_index:
+	if state[-1] == max_index:
 		same_turn_evals += 1
 		values = []
 		for action in actions:
